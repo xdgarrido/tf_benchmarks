@@ -1,0 +1,15 @@
+WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/tensorflow/python/compat/v2_compat.py:96: disable_resource_variables (from tensorflow.python.ops.variable_scope) is deprecated and will be removed in a future version.
+Instructions for updating:
+non-resource variables are not supported in the long term
+Running tests under Python 3.6.9: /usr/bin/python3
+[ RUN      ] Bnorm.test_bnorm
+INFO:tensorflow:time(__main__.Bnorm.test_bnorm): 15.34s
+I0825 17:13:38.898226 140640690722624 test_util.py:1973] time(__main__.Bnorm.test_bnorm): 15.34s
+[       OK ] Bnorm.test_bnorm
+[ RUN      ] Bnorm.test_session
+[  SKIPPED ] Bnorm.test_session
+----------------------------------------------------------------------
+Ran 2 tests in 15.339s
+
+OK (skipped=1)
+Final iteration is  10000

@@ -1,0 +1,15 @@
+WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/tensorflow/python/compat/v2_compat.py:96: disable_resource_variables (from tensorflow.python.ops.variable_scope) is deprecated and will be removed in a future version.
+Instructions for updating:
+non-resource variables are not supported in the long term
+Running tests under Python 3.6.9: /usr/bin/python3
+[ RUN      ] AvgLayer.test_avglayer
+INFO:tensorflow:time(__main__.AvgLayer.test_avglayer): 0.98s
+I0825 17:13:15.136984 139726770603840 test_util.py:1973] time(__main__.AvgLayer.test_avglayer): 0.98s
+[       OK ] AvgLayer.test_avglayer
+[ RUN      ] AvgLayer.test_session
+[  SKIPPED ] AvgLayer.test_session
+----------------------------------------------------------------------
+Ran 2 tests in 0.984s
+
+OK (skipped=1)
+Final iteration is  16000

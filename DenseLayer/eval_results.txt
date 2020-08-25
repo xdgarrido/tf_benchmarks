@@ -1,0 +1,32 @@
+VENDOR=amd MODE=benchmark PRECISION=fp32 ITER=1000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+VENDOR=amd MODE=benchmark PRECISION=fp32 ITER=1000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+[DenseLayer]
+VENDOR=amd MODE=benchmark PRECISION=fp32 ITER=1000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+Time Elapsed : 0 minutes and 4 seconds.
+[DenseLayer]
+VENDOR=amd MODE=benchmark PRECISION=fp32 ITER=5000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+Time Elapsed : 0 minutes and 4 seconds.
+[DenseLayer]
+VENDOR=Nvidia MODE=benchmark PRECISION=fp32 ITER=5000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+Time Elapsed : 0 minutes and 4 seconds.
+[DenseLayer]
+VENDOR=Nvidia MODE=benchmark PRECISION=fp16 ITER=5000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+Time Elapsed : 0 minutes and 4 seconds.
+[DenseLayer]
+VENDOR=AMD MODE=benchmark PRECISION=fp32 ITER=5000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+Time Elapsed : 0 minutes and 18 seconds.
+[DenseLayer]
+VENDOR=AMD MODE=benchmark PRECISION=fp32 ITER=10000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+Time Elapsed : 0 minutes and 19 seconds.
+[DenseLayer]
+VENDOR=AMD MODE=benchmark PRECISION=fp32 ITER=10000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+Time Elapsed : 0 minutes and 19 seconds.
+[DenseLayer]
+VENDOR=AMD MODE=benchmark PRECISION=fp32 ITER=10000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+Time Elapsed : 0 minutes and 20 seconds.
+[DenseLayer]
+VENDOR=AMD MODE=benchmark PRECISION=fp32 ITER=10000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=relu
+Time Elapsed : 0 minutes and 19 seconds.
+[DenseLayer]
+VENDOR=AMD MODE=benchmark PRECISION=fp32 ITER=10000 HIDDEN_SIZE=1024 BATCH_SIZE=16 ACTIVATION=softmax
+Time Elapsed : 0 minutes and 19 seconds.
