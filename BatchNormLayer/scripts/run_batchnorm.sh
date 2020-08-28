@@ -29,7 +29,7 @@ export CUDA_VISIBLE_DEVICES=0 # choose gpu
 export HIP_VISIBLE_DEVICES=0 # choose gpu
 
 #set-up bc (calculator)
-cp /tf_benchmarks/bin/bc /usr/bin
+#cp /tf_benchmarks/bin/bc /usr/bin
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
@@ -100,5 +100,10 @@ starttime=$(date +%s)
 output=$(python3 /tf_benchmarks/BatchNormLayer/batch_normalization.py --iter=$COUNT  --precision=$PRECISION --mode=$MODE --hidden_size=$SIZE &> /tf_benchmarks/BatchNormLayer/log.txt)
 endtime=$(date +%s)
 echo "[BATCHNORM]" >> eval_results.txt
-echo "VENDOR=$VENDOR MODE=$MODE ITER=$COUNT  PRECISION=$PRECISION HIDDEN_SIZE=$SIZE" >> eval_results.txt
-secs_to_human "$(($(date +%s) - ${starttime}))" >> eval_results.txt
+echo "VENDOR=$VENDOR" >> eval_results.txt
+echo "MODE=$MODE" >> eval_results.txt
+echo "ITER=$COUNT" >> eval_results.txt
+echo "PRECISION=$PRECISION" >> eval_results.txt
+echo "HIDDEN_SIZE=$SIZE" >> eval_results.txt
+#secs_to_human "$(($(date +%s) - ${starttime}))" >> eval_results.txt
+echo "ELAPSED_TIME(in secs)=$((${endtime} - ${starttime}))" >> eval_results.txt

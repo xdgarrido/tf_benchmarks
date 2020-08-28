@@ -87,4 +87,4 @@ echo "Executing Optimizers!"
 ./Optimizers/scripts/run_optimizer.sh --iter=$ITER2 --netsize=1000000 --optimizer=lamb --vendor=$VENDOR
 ./Optimizers/scripts/run_optimizer.sh --iter=$ITER2 --netsize=1000000 --optimizer=nadam --vendor=$VENDOR
 ./Optimizers/scripts/run_optimizer.sh --iter=$ITER2 --netsize=1000000 --optimizer=nlamb --vendor=$VENDOR
-
+cat eval_results.txt << EOF

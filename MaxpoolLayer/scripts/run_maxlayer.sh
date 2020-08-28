@@ -32,7 +32,7 @@ export CUDA_VISIBLE_DEVICES=0 # choose gpu
 export HIP_VISIBLE_DEVICES=0 # choose gpu
 
 #set-up bc (calculator)
-cp /tf_benchmarks/bin/bc /usr/bin
+#cp /tf_benchmarks/bin/bc /usr/bin
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
@@ -148,7 +148,16 @@ output=$(python3 /tf_benchmarks/MaxpoolLayer/layer_max.py --iter=$COUNT --precis
 --width=$WIDTH --height=$HEIGHT --channels=$CHANNELS --stride=$STRIDE --pool=$POOL  &> /tf_benchmarks/MaxpoolLayer/log.txt)
 endtime=$(date +%s)
 echo "[MAXLAYER]" >> eval_results.txt
-echo "VENDOR=$VENDOR MODE=$MODE PRECISION=$PRECISION ITER=$COUNT BATCH_SIZE=$BATCH" >> eval_results.txt
-echo "WIDTH=$WIDTH HEIGHT=$HEIGHT CHANNELS=$CHANNELS STRIDE=$STRIDE POOL=$POOL" >> eval_results.txt
-secs_to_human "$(($(date +%s) - ${starttime}))" >> eval_results.txt
+echo "VENDOR=$VENDOR" >> eval_results.txt
+echo "MODE=$MODE" >> eval_results.txt
+echo "PRECISION=$PRECISION"
+echo "ITER=$COUNT" >> eval_results.txt
+echo "BATCH_SIZE=$BATCH" >> eval_results.txt
+echo "WIDTH=$WIDTH" >> eval_results.txt
+echo "HEIGHT=$HEIGHT" >> eval_results.txt
+echo "CHANNELS=$CHANNELS" >> eval_results.txt
+echo "STRIDE=$STRIDE" >> eval_results.txt
+echo "POOL=$POOL" >> eval_results.txt
+#secs_to_human "$(($(date +%s) - ${starttime}))" >> eval_results.txt
+echo "ELAPSED_TIME(in secs)=$((${endtime} - ${starttime}))" >> eval_results.txt
 

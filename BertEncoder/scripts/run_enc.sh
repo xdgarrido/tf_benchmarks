@@ -32,7 +32,7 @@ export HIP_VISIBLE_DEVICES=0 # choose gpu
 
 
 #set-up bc (calculator)
-cp /tf_benchmarks/bin/bc /usr/bin
+#cp /tf_benchmarks/bin/bc /usr/bin
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
@@ -131,6 +131,13 @@ starttime=$(date +%s)
 output=$(python3 /tf_benchmarks/BertEncoder/encoder.py --iter=$COUNT --seq_length=$LENGTH --batch=$BATCH --precision=$PRECISION --layers=$LAYERS --heads=$HEADS 2>&1 | tee /tf_benchmarks/BertEncoder/log.txt)
 endtime=$(date +%s)
 echo "[BERTENCODER]" >> eval_results.txt
-echo "VENDOR=$VENDOR MODE=$MODE ITER=$COUNT BATCH_SIZE=$BATCH SEQ_LENGTH=$LENGTH PRECISION=$PRECISION LAYERS=$LAYERS HEADS=$HEADS" >> eval_results.txt
-secs_to_human "$(($(date +%s) - ${starttime}))" >> eval_results.txt
-
+echo "VENDOR=$VENDOR"  >> eval_results.txt
+echo "MODE=$MODE"  >> eval_results.txt
+echo "ITER=$COUNT"  >> eval_results.txt
+echo "BATCH_SIZE=$BATCH"  >> eval_results.txt
+echo "SEQ_LENGTH=$LENGTH"  >> eval_results.txt
+echo "PRECISION=$PRECISION"  >> eval_results.txt
+echo "LAYERS=$LAYERS"  >> eval_results.txt
+echo "HEADS=$HEADS" >> eval_results.txt
+#secs_to_human "$(($(date +%s) - ${starttime}))" >> eval_results.txt
+echo "ELAPSED_TIME(in secs)=$((${endtime} - ${starttime}))" >> eval_results.txt
