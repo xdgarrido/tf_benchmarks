@@ -101,6 +101,7 @@ output=$(python3 /tf_benchmarks/Optimizers/optimization.py --iter=$COUNT --netsi
 endtime=$(date +%s)
 echo "[OPTIMIZERS]" >> eval_results.txt
 echo "VENDOR=$VENDOR" >> eval_results.txt
+echo "PRECISION=fp32" >> eval_results.txt
 echo "MODE=$MODE" >> eval_results.txt
 echo "ITER=$COUNT"  >> eval_results.txt
 echo "NETSIZE=$SIZE" >> eval_results.txt

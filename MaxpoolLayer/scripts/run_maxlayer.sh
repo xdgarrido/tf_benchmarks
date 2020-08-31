@@ -150,7 +150,7 @@ endtime=$(date +%s)
 echo "[MAXLAYER]" >> eval_results.txt
 echo "VENDOR=$VENDOR" >> eval_results.txt
 echo "MODE=$MODE" >> eval_results.txt
-echo "PRECISION=$PRECISION"
+echo "PRECISION=$PRECISION" >> eval_results.txt
 echo "ITER=$COUNT" >> eval_results.txt
 echo "BATCH_SIZE=$BATCH" >> eval_results.txt
 echo "WIDTH=$WIDTH" >> eval_results.txt
