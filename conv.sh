@@ -1,28 +1,111 @@
 #!/bin/bash
-ITER3=5000
-VENDOR=AMD
-PRECISION=fp32
+MODE=1
+
+PWD=`pwd`
+DOCKER_DIR=/`basename $PWD`
+export CUDA_VISIBLE_DEVICES=0 # choose gpu
+export HIP_VISIBLE_DEVICES=0 # choose gpu
+function usage()
+{
+    echo "Usage:"
+    echo ""
+    echo "./conv.sh"
+    echo "\t-h --help"
+    echo "\t--vendor=$VENDOR (AMD or NVIDIA)"
+    echo "\t--precision=$PRECISION (fp32 or fp16)"
+    echo "\t--iter=$COUNT (number of iterations)"
+    echo ""
+}
+
+while [ "$1" != "" ]; do
+    PARAM=`echo $1 | awk -F= '{print $1}'`
+    VALUE=`echo $1 | awk -F= '{print $2}'`
+    case $PARAM in
+        -h | --help)
+            usage
+            exit
+            ;;
+        --vendor)
+            VENDOR=$VALUE
+            ;;
+        --precision)
+            PRECISION=$VALUE
+            ;;
+        --iter)
+            COUNT=$VALUE
+            ;;
+        *)
+            echo "ERROR: unknown parameter \"$PARAM\""
+            usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+# Get the folders
+SCRIPTPATH=$(dirname $(realpath $0))
+CODE_DIR=$SCRIPTPATH/..
+CODE_DIR_INSIDE=/data
+
+
+if [ "$VENDOR" = "AMD" ]
+then    
+        CTNRNAME=GpuContainer
+        IMAGE="devenamd/tensorflow:rocm37-rocmfork-horovod-200805"
+        echo "Starting $CTNRNAME"
+        docker stop GpuContainer
+        docker run --name $CTNRNAME -it -d --rm --network=host --device=/dev/kfd --device=/dev/dri --ipc=host --shm-size 16G --group-add video --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --user $(id -u):$(id -g) -w $CODE_DIR_INSIDE -v $CODE_DIR:$CODE_DIR_INSIDE $IMAGE
+        echo "$VENDOR"
+fi
+
+if [ "$VENDOR" = "NVIDIA" ]
+then
+        CTNRNAME=GpuContainer
+        IMAGE="nvcr.io/nvidia/tensorflow:20.06-tf2-py3"
+        echo "Starting $CTNRNAME"
+        docker stop GpuContainer
+        docker run --name $CTNRNAME -it -d --rm --gpus 1 --network=host --shm-size=16g  --ulimit memlock=-1 --ulimit stack=67108864 -w $CODE_DIR_INSIDE -v $CODE_DIR:$CODE_DIR_INSIDE --user $(id -u):$(id -g) --privileged --device=/dev/kfd --device=/dev/dri --group-add video  --security-opt seccomp=unconfined $IMAGE 
+        echo "$VENDOR"
+fi
+
 let "count = 0"
-for batch in {16..32..16}
+CHANNELS=3
+for BATCH in 32 64 96 128 160 192 224 256 
   do 
-    for width in {16..32..16}
+    for WIDTH in  32 64 96 128 
     do 
-      for height in {16..32..16}
+      for HEIGHT in 32 64 96 128 
         do 
-           for kernel in {3..11..2}
+           for KERNEL in 3 5 7 9 
            do   
-              for stride in {1..4..1}
+              for STRIDE in 1 2 3
               do 
-                  for dilation in {1..4..1}
+                  for DILATION in 1 2 3 
                   do 
-                      for activation in linear relu sigmoid hard_sigmoid softmax softplus swish softsign tanh selu elu exponential
+                      for ACTIVATION in linear relu sigmoid hard_sigmoid softmax softplus swish softsign tanh selu elu exponential
                       do
-                          for precision in $PRECISION
-                          do
-                            echo $batch:$width:$height:$kernel$stride:$dilation:$activation:$precision
-                            ./Conv2Layer/scripts/run_conv2layer.sh --iter=$ITER3 --batch=$batch  --width=$width --height=$height --channels=3 --kernel=$kernel --stride=$stride --dilation=$dilation --activation=$activation --precision=$precision --vendor=$VENDOR
+                            echo $BATCH:$WIDTH:$HEIGHT:$KERNEL:$STRIDE:$DILATION:$ACTIVATION:$PRECISION
+                            echo "[CONV2LAYER]"  >> $SCRIPTPATH/eval_results.txt
+                            echo "VENDOR=$VENDOR"  >> $SCRIPTPATH/eval_results.txt
+                            echo "MODE=$MODE"  >> $SCRIPTPATH/eval_results.txt
+                            echo "PRECISION=$PRECISION"  >> $SCRIPTPATH/eval_results.txt
+                            echo "ITER=$COUNT"  >> $SCRIPTPATH/eval_results.txt
+                            echo "BATCH_SIZE=$BATCH"  >> $SCRIPTPATH/eval_results.txt
+                            echo "ACTIVATION=$ACTIVATION"  >> $SCRIPTPATH/eval_results.txt
+                            echo "WIDTH=$WIDTH" >> $SCRIPTPATH/eval_results.txt
+                            echo "HEIGHT=$HEIGHT"  >> $SCRIPTPATH/eval_results.txt
+                            echo "CHANNELS=$CHANNELS"  >> $SCRIPTPATH/eval_results.txt
+                            echo "KERNEL=$KERNEL"  >> $SCRIPTPATH/eval_results.txt
+                            echo "STRIDE=$STRIDE"  >> $SCRIPTPATH/eval_results.txt
+                            echo "DILATION=$DILATION"  >> $SCRIPTPATH/eval_results.txt
+                            starttime=$(date +%s)
+                            # run conv2_layer
+                            docker exec $CTNRNAME python3 $CODE_DIR_INSIDE/tf_benchmarks/Conv2Layer/layer_conv2.py --iter=$COUNT --precision=$PRECISION --mode=$MODE --batch_size=$BATCH --activation=$ACTIVATION \
+                            --width=$WIDTH --height=$HEIGHT --channels=$CHANNELS --kernel=$KERNEL --stride=$STRIDE --dilation=$DILATION  2>&1 | tee $SCRIPTPATH/Conv2Layer/log.txt
+                            endtime=$(date +%s)
+                            echo "ELAPSED_TIME(in secs)=$((${endtime} - ${starttime}))"  >> $SCRIPTPATH/eval_results.txt
                             let "count++"
-                          done
                       done 
                   done
               done 
@@ -31,6 +114,7 @@ for batch in {16..32..16}
     done 
 done
 
+docker stop GpuContainer
 echo "Parameter Space: $count"
 
 
