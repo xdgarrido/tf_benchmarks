@@ -71,17 +71,17 @@ fi
 
 let "count = 0"
 CHANNELS=3
-for BATCH in 32 64 96 128 160 192 224 256 
+for BATCH in 32 64 128 
   do 
-    for WIDTH in  32 64 96 128 
+    for WIDTH in  64 128 256
     do 
-      for HEIGHT in 32 64 96 128 
+      for HEIGHT in 64 128 256
         do 
-           for KERNEL in 3 5 7 9 
+           for KERNEL in 3 5 7 
            do   
-              for STRIDE in 1 2 3
+              for STRIDE in 1 2 
               do 
-                  for DILATION in 1 2 3 
+                  for DILATION in 1 2  
                   do 
                       for ACTIVATION in linear relu sigmoid hard_sigmoid softmax softplus swish softsign tanh selu elu exponential
                       do
