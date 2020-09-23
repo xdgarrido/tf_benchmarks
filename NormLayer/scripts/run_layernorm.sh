@@ -6,6 +6,7 @@ function usage()
     echo "./run_layernorm.sh"
     echo "\t-h --help"
     echo "\t--iter=$COUNT (number of iterations) "
+    echo "\t--batch=$BATCH (hidden_size) "
     echo "\t--size=$SIZE (hidden_size) "
     echo "\t--vendor=$VENDOR (amd or nvidia)"
     echo "\t--mode=$MODE (benchmark or validation)"
@@ -50,6 +51,9 @@ while [ "$1" != "" ]; do
         --size)
             SIZE=$VALUE
             ;;
+        --batch)
+            BATCH=$VALUE
+            ;;
         --precision)
             PRECISION=$VALUE
             ;;
@@ -81,6 +85,12 @@ then
       echo " SET HIDDEN_SIZE=$SIZE"
 fi
 
+if [ -z "$BATCH" ]
+then
+      BATCH=64
+      echo " SET BATCH_SIZE=$BATCH"
+fi
+
 if [ -z "$MODE" ]
 then
       MODE=benchmark
@@ -95,13 +105,14 @@ fi
 
 starttime=$(date +%s)
 # run layer_normalization
-output=$(python3 /tf_benchmarks/NormLayer/layer_normalization.py --iter=$COUNT --precision=$PRECISION --mode=$MODE --hidden_size=$SIZE &> /tf_benchmarks/NormLayer/log.txt)
+output=$(python3 /tf_benchmarks/NormLayer/layer_normalization.py --iter=$COUNT --precision=$PRECISION --mode=$MODE --batch_size=$SIZE --hidden_size=$SIZE &> /tf_benchmarks/NormLayer/log.txt)
 endtime=$(date +%s)
 echo "[LAYERNORM]" >> eval_results.txt
 echo "VENDOR=$VENDOR" >> eval_results.txt
 echo "MODE=$MODE" >> eval_results.txt
 echo "PRECISION=$PRECISION" >> eval_results.txt
 echo "ITER=$COUNT" >> eval_results.txt
+echo "BATCH_SIZE=$BATCH" >> eval_results.txt
 echo "HIDDEN_SIZE=$SIZE" >> eval_results.txt
 #secs_to_human "$(($(date +%s) - ${starttime}))" >> eval_results.txt
 echo "ELAPSED_TIME(in secs)=$((${endtime} - ${starttime}))" >> eval_results.txt

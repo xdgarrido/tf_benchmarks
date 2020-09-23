@@ -47,12 +47,12 @@ echo "Executing MaxpoolLayer!"
 # Batch Layer Normalization
 # --size (hiidden size)
 echo "Executing BatchNormLayer!"
-./BatchNormLayer/scripts/run_batchnorm.sh  --iter=$ITER2 --size=1024  --precision=$PRECISION --vendor=$VENDOR
+./BatchNormLayer/scripts/run_batchnorm.sh  --iter=$ITER2 --batch=64 --size=1024  --precision=$PRECISION --vendor=$VENDOR
 
 # Layer Normalization
 # --size (hiidden size)
 echo "Executing Layer Normalization!"
-./NormLayer/scripts/run_layernorm.sh  --iter=$ITER2 --size=1024  --precision=$PRECISION --vendor=$VENDOR
+./NormLayer/scripts/run_layernorm.sh  --iter=$ITER2 --batch=64 --size=1024  --precision=$PRECISION --vendor=$VENDOR
 
 # Dropout Layer 
 # --heads (number of heads)

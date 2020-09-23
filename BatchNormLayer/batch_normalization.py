@@ -21,6 +21,7 @@ flags = tf.compat.v1.flags
 FLAGS = flags.FLAGS
 
 flags.DEFINE_integer("iter", 5000, "Total number of iterations")
+flags.DEFINE_integer("batch_size", 64, "Batch Size")
 flags.DEFINE_integer("hidden_size", 1024, "Hidden Size")
 flags.DEFINE_string("precision","fp32","precision fp32 or fp16")
 flags.DEFINE_string("mode","benchmark","Mode")
@@ -42,9 +43,10 @@ class Bnorm(tf.test.TestCase):
   def test_bnorm(self):
     
     hidden_size = FLAGS.hidden_size
+    batch_size = FLAGS.batch_size
     
     #initialize x_trf 
-    x_trf  = init_weights([hidden_size,hidden_size],FLAGS.precision)
+    x_trf  = init_weights([batch_size,hidden_size],FLAGS.precision)
         
     context_layer_gpu  = batch_norm(x_trf)   
     context_layer_gpu_gradient = tf.gradients(ys=context_layer_gpu,xs=x_trf)
