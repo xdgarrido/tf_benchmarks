@@ -83,7 +83,7 @@ fi
 
 
 let "count = 0"
-    for SIZE in  10000 100000 1000000 
+    for SIZE in  500000 1000000 5000000 10000000 50000000 100000000 500000000 
      do 
       for TYPE in adam lamb nadam nlamb
         do
