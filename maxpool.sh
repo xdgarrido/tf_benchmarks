@@ -95,8 +95,8 @@ for BATCH in 32 64 128
                 echo "POOL=$POOL" >> $SCRIPTPATH/eval_results.txt
                 starttime=$(date +%s)
                 # run conv2_layer
-                docker exec $CTNRNAME python3 $CODE_DIR_INSIDE/tf_benchmarks/AvgpoolLayer/layer_avg.py --iter=$COUNT --precision=$PRECISION --mode=$MODE --batch_size=$BATCH  \
-                    --width=$WIDTH --height=$HEIGHT --channels=$CHANNELS --pool=$POOL --stride=$STRIDE  2>&1 | tee $SCRIPTPATH/AvgpoolLayer/log.txt
+                docker exec $CTNRNAME python3 $CODE_DIR_INSIDE/tf_benchmarks/MaxpoolLayer/layer_max.py --iter=$COUNT --precision=$PRECISION --mode=$MODE --batch_size=$BATCH  \
+                    --width=$WIDTH --height=$HEIGHT --channels=$CHANNELS --pool=$POOL --stride=$STRIDE  2>&1 | tee $SCRIPTPATH/MaxpoolLayer/log.txt
                 endtime=$(date +%s)
                 echo "ELAPSED_TIME(in secs)=$((${endtime} - ${starttime}))"  >> $SCRIPTPATH/eval_results.txt
                 let "count++"
