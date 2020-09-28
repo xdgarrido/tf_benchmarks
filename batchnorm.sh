@@ -84,7 +84,6 @@ for BATCH in  16 32 64 128 256 512
                 echo "ITER=$COUNT" >> $SCRIPTPATH/eval_results.txt
                 echo "HIDDEN_SIZE=$SIZE" >> $SCRIPTPATH/eval_results.txt
                 echo "BATCH_SIZE=$BATCH" >> $SCRIPTPATH/eval_results.txt
-                echo "ACTIVATION=$ACTIVATION" >> $SCRIPTPATH/eval_results.txt
                 starttime=$(date +%s)
                 # run dense layer
                 docker exec $CTNRNAME python3 $CODE_DIR_INSIDE/tf_benchmarks/BatchNormLayer/batch_normalization.py  --iter=$COUNT --precision=$PRECISION --mode=$MODE --batch_size=$BATCH --hidden_size=$SIZE 2>&1 | tee $SCRIPTPATH/BatchNormLayer/log.txt
